@@ -6,11 +6,11 @@ let intervalId = null;
 startBtn.addEventListener("click", startClick)
 stopBtn.addEventListener("click", stopClick)
 
-function startClick(event) { 
+function startClick() { 
     intervalId = setInterval(changeBody, DELEY);
     invertBoolean()
 }
-function stopClick(event) { 
+function stopClick() { 
     clearInterval(intervalId)
     invertBoolean()
 }

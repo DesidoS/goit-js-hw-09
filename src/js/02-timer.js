@@ -1,3 +1,4 @@
+import Notiflix from 'notiflix';
 // Описан в документации
 import flatpickr from "flatpickr";
 // Дополнительный импорт стилей
@@ -22,18 +23,20 @@ const options = {
     onClose(selectedDates) {
         //   console.log(selectedDates[0]);
         if (options.defaultDate > selectedDates[0].getTime()) {
-            window.alert("Please choose a date in the future")
+            Notiflix.Notify.warning("Please choose a date in the future")
             return;
         }
         startBtn.disabled = false
     },
 };
+
 flatpickr(data, options);
 
 function startTimer() {
     startBtn.disabled = true
     intervalId = setInterval(startTime, DELEY);   
 }
+
 function startTime() {
     data.disabled = true
     const date = new Date();
@@ -42,14 +45,15 @@ function startTime() {
     
     if (timer <= 0) {
         clearInterval(intervalId)
+        Notiflix.Notify.success('It`s ShowTime!')
         return
     }
-    showTimeThrough(timer)
+    updateTimer(timer)
 }
 
-function showTimeThrough(timer) {
+function updateTimer(timer) {
     const { days, hours, minutes, seconds } = convertMs(timer)
-    
+
     spanValue[0].textContent = `${days}`
     spanValue[1].textContent = `${hours}`
     spanValue[2].textContent = `${minutes}`

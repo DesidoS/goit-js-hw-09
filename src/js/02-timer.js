@@ -53,7 +53,7 @@ function startTime() {
 
 function updateTimer(timer) {
     const { days, hours, minutes, seconds } = convertMs(timer)
-
+    
     spanValue[0].textContent = `${days}`
     spanValue[1].textContent = `${hours}`
     spanValue[2].textContent = `${minutes}`

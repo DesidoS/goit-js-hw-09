@@ -39,10 +39,10 @@ const makePromis = () => {
     setTimeout(() => {
       if (shouldResolve) {
         // Fulfill
-        resolve(console.log(`✅ Fulfilled promise ${position} in ${data.delay}ms`))
+        resolve()
       } else {
         // Reject
-        reject(console.log(`❌ Rejected promise ${position} in ${data.delay}ms`))
+        reject()
       }
     }, DELEY)
     // return data
@@ -52,12 +52,10 @@ const makePromis = () => {
   .then(() => {
     // Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
     console.log(`✅ Fulfilled promise ${position} in ${data.delay}ms`);
-    
   })
   .catch(() => {
     // Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
     console.log(`❌ Rejected promise ${position} in ${data.delay}ms`);
-    
   });
 };
 

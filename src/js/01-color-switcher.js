@@ -20,7 +20,6 @@ function getRandomHexColor() {
 function changeBody() {
     document.body.style.backgroundColor = getRandomHexColor()
 }
-
 function invertBoolean() {
     startBtn.disabled = !startBtn.disabled
     stopBtn.disabled = !stopBtn.disabled

@@ -1,7 +1,5 @@
 import Notiflix from 'notiflix';
-// Описан в документации
 import flatpickr from "flatpickr";
-// Дополнительный импорт стилей
 import "flatpickr/dist/flatpickr.min.css";
 
 const data = document.getElementById("datetime-picker")
@@ -10,10 +8,9 @@ const spanValue = document.querySelectorAll('.value')
 
 const DELEY = 1000;
 let intervalId = null;
+let value = null;
 
 startBtn.addEventListener("click", startTimer)
-
-startBtn.disabled = true
 
 const options = {
     enableTime: true,
@@ -21,12 +18,14 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
+        value = selectedDates[0].getTime();
         //   console.log(selectedDates[0]);
         if (options.defaultDate > selectedDates[0].getTime()) {
             Notiflix.Notify.warning("Please choose a date in the future")
             return;
         }
         startBtn.disabled = false
+        return selectedDates
     },
 };
 
@@ -39,9 +38,7 @@ function startTimer() {
 
 function startTime() {
     data.disabled = true
-    const date = new Date();
-    const choiseTime = new Date(data.value);
-    const timer = choiseTime.getTime() - date.getTime()
+    const timer = value - Date.now()
     
     if (timer <= 0) {
         clearInterval(intervalId)
@@ -54,10 +51,10 @@ function startTime() {
 function updateTimer(timer) {
     const { days, hours, minutes, seconds } = convertMs(timer)
     
-    spanValue[0].textContent = `${days}`
-    spanValue[1].textContent = `${hours}`
-    spanValue[2].textContent = `${minutes}`
-    spanValue[3].textContent = `${seconds}`  
+    spanValue[0].textContent = days
+    spanValue[1].textContent = hours
+    spanValue[2].textContent = minutes
+    spanValue[3].textContent = seconds  
 }
 
 function addLeadingZero (value) {

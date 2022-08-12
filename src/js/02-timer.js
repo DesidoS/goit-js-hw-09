@@ -9,6 +9,7 @@ const spanValue = document.querySelectorAll('.value');
 const DELEY = 1000;
 
 let intervalId = null;
+let valueDate = null;
 
 startBtn.addEventListener("click", startTimer);
 
@@ -23,7 +24,7 @@ const options = {
             return
         }
         startBtn.disabled = false;
-        return valueDate = selectedDates[0].getTime();
+        valueDate = selectedDates[0].getTime();
     },
 };
 

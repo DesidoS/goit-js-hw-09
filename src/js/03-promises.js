@@ -3,114 +3,65 @@ import Notiflix from 'notiflix';
 const createPromiseForm = document.querySelector('.form');
 const createPromiseBtn = document.querySelector('button');
 const data = {};
+
 let intervalId = null;
-let position = null;
+let DELAY = null;
+data.position = 1;
 
 createPromiseForm.addEventListener('submit', onSubmit);
 createPromiseForm.addEventListener('input', onInput);
 
 function onInput(e) {
-  data[e.target.name] = e.target.value
+  data[e.target.name] = Number.parseInt(e.target.value)
+  
 }
 
 function onSubmit(e) {
-  createPromiseBtn.disabled = true
-
   e.preventDefault();
-  startInterval()
+  
+  createPromiseBtn.disabled = true
+  
+  startTimeout()
 }
 
-function startInterval() {
-  intervalId = setInterval(makePromis, data.step);
+function startTimeout() {
+  setTimeout(makePromis, data.delay);
 }
 
 const makePromis = () => {
-  const DELEY = data.delay
-  if (position === Number.parseInt(data.amount)) {
-    clearInterval(intervalId)
-    createPromiseBtn.disabled = false
-    return;
-  }
-  position += 1;
+
+  intervalId = setInterval(() => {
   
-  
-  const promise = new Promise((resolve, reject) => {
-    const shouldResolve = Math.random() > 0.3;
-    setTimeout(() => {
+
+    if (data.position === data.amount + 1) {
+      clearInterval(intervalId)
+      createPromiseBtn.disabled = false
+      return;
+    }
+    
+    const promise = new Promise((resolve, reject) => {
+      const shouldResolve = Math.random() > 0.3;
       if (shouldResolve) {
-        // Fulfill
-        resolve()
+        resolve(data)
       } else {
-        // Reject
-        reject()
+        reject(data)
       }
-    }, DELEY)
-    // return data
-  });
-  
-  promise
-  .then(() => {
-    // Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-    console.log(`✅ Fulfilled promise ${position} in ${data.delay}ms`);
-  })
-  .catch(() => {
-    // Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-    console.log(`❌ Rejected promise ${position} in ${data.delay}ms`);
-  });
-};
+    })
 
-
-
-
-
-
-
-
-
-
-// function onSubmit(e) {
-//   createPromiseBtn.disabled = true
-
-//   e.preventDefault();
-//   createFirstPromise()
-// }
-
-// function createFirstPromise() {
-//   setTimeout(startInterval, data.delay)
-//   delay += Number.parseInt(data.delay)
-// }
-
-// function startInterval() {
-//   intervalId = setInterval(startFn, data.step);  
-// }
-
-// function startFn() {
-//   counter += 1;
-
-//   createPromise(counter, delay)
-//   delay+=Number.parseInt(data.step)
-  
-//   if (counter === Number.parseInt(data.amount)) {
-//     clearInterval(intervalId)
-//     createPromiseBtn.disabled = false
-//     return;
-//   }
-// }
-
-// function createPromise(position, delay) {
-
-//   const promise = new Promise((resolve, reject) => {
-  
-//   const shouldResolve = Math.random() > 0.3;
-
-//   // setTimeout(() => {
-//     if (shouldResolve) {
-//       // resolve(Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`));
-//       resolve(console.log(`✅ Fulfilled promise ${position} in ${delay}ms`));
-//     }
-//     // reject(Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`));
-//     reject(console.log(`❌ Rejected promise ${position} in ${delay}ms`));
-//     });
-//   // })
-//   return promise;
-// }
+    promise
+    .then(({ position, delay }) => {
+      Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      console.log('✅')
+    })
+    .catch(({ position, delay }) => {
+      Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+      console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+      console.log('❌')
+    })
+    .finally(() => {
+      data.position += 1;
+      data.delay += data.step
+    });
+  }, data.step);
+}

@@ -8,6 +8,8 @@ const spanValue = document.querySelectorAll('.value');
 
 const DELEY = 1000;
 
+let intervalId = null;
+
 startBtn.addEventListener("click", startTimer);
 
 const options = {
@@ -29,7 +31,7 @@ flatpickr(data, options);
 
 function startTimer() {
     startBtn.disabled = true
-    return intervalId = setInterval(startTime, DELEY);   
+    intervalId = setInterval(startTime, DELEY);   
 }
 
 function startTime() {

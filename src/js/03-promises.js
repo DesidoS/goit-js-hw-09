@@ -45,4 +45,5 @@ function onSubmit(e) {
       })
     dataDelay += dataStep;
   }
+  e.currentTarget.reset();
 };
